@@ -1,2 +1,3 @@
-# RateScore
-extension for google chrome 
+# RatoScore
+
+My first extension in google chrome

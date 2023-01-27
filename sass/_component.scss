@@ -1,0 +1,24 @@
+@mixin center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+$back_color:#1d2b3a;
+$for_color:#00dfc4;
+
+@mixin clear{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-type: none;
+    text-decoration: none;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+@mixin center_line{
+    display: block;
+    margin: 0 auto;
+}

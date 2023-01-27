@@ -1,0 +1,19 @@
+{
+    "name": "RatoScore",
+    "version": "1.0",
+    "description": "This Chrome extension greets the user each time they open a new tab",
+    "manifest_version": 3,
+    "incognito": "split",
+    "action": {
+        "default_popup": "index.html",
+        "default_icon": {
+            "128": "pic/Logo.png"
+        }
+    },
+    "permissions": [
+        "tabs"
+    ],
+    "icons": {
+        "128": "pic/Logo.png"
+    }
+}
