@@ -19,32 +19,56 @@ MetaData.onreadystatechange = () => {
 
                 let elm = document.getElementById("test");
                 elm.innerHTML = data;
-                // elm.style.display = "none";
 
-                for (let i = 0; i < 10; i++) {
-                    let subData = new MetacriticData();
-                    // subData.Picture = document.querySelectorAll(".result_wrap img")[i].childNodes[0].nodeValue;
-                    subData.Rate = document.querySelectorAll(".metascore_w")[i].childNodes[0].nodeValue;
-                    subData.Name = document.querySelectorAll(".product_title a")[i].childNodes[0].nodeValue;
-                    subData.Date = document.querySelectorAll(".main_stats p ")[i].childNodes[0].nodeValue;
-                    subData.Description = document.querySelectorAll(".deck")[i].childNodes[0].nodeValue;
-                    MetaBox.push(subData);
-                }
+                removemetacritic();
+                decodeMetacritic();
 
-                console.log(MetaBox);
-
-                let showText = "";
-                for(let i = 0 ; i<MetaBox.length;i++){
-                    showText += `${MetaBox[i].Rate} <br> ${MetaBox[i].Name} <br>
-                     ${MetaBox[i].Date} <br> ${MetaBox[i].Description} <hr>`;
-                }
-                document.getElementById("test2").innerHTML =showText;
             }
         }
     }
 }
 
-MetaData.open("Get", "https://www.metacritic.com/search/all/avatar/results", true);
+MetaData.open("Get", "https://www.metacritic.com/search/all/batman/results", true);
 
 // MetaData.setRequestHeader();
 MetaData.send();
+
+
+
+function removemetacritic() {
+    document.getElementById("top_header").remove();
+    document.getElementById("popup_login").remove();
+    document.getElementById("popup_dialog").remove();
+    document.getElementById("nav_ad_wrapper").remove();
+    document.getElementById("fb-root").remove();
+    document.getElementById("bottom_footer").remove();
+    document.getElementsByClassName("search_header")[0].remove();
+    document.getElementsByClassName("search_filters_nav")[0].remove();
+    document.getElementsByClassName("round_style_page_nav")[0].remove();
+
+    document.getElementsByTagName("title")[1].remove();
+    document.getElementsByTagName("noscript")[0].remove();
+
+    let meta = document.querySelectorAll("#test meta");
+    let link = document.querySelectorAll("#test link");
+    var script = document.querySelectorAll("#test script");
+
+    for (let index = 0; index < 27; index++) {
+        script[index].remove();
+    }
+    for (let index = 0; index < 8; index++) {
+        meta[index].remove();
+    }
+    for (let index = 0; index < 10; index++) {
+        link[index].remove();
+    }
+
+
+}
+
+function decodeMetacritic() {
+
+    document.getElementById('test2').innerHTML = document.querySelectorAll('.search_results ul')[0].innerHTML;
+    document.getElementById("test").remove();
+
+}
