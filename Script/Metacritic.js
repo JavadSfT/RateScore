@@ -1,3 +1,4 @@
+// data class for fetching data in array
 class MetacriticData {
     Picture;
     Rate;
@@ -5,8 +6,10 @@ class MetacriticData {
     Date;
     Description;
 }
+// array class for colect data
 let MetaBox = [];
 
+// ajax request to metacritic site
 const MetaData = new XMLHttpRequest();
 
 MetaData.onreadystatechange = () => {
@@ -15,19 +18,36 @@ MetaData.onreadystatechange = () => {
         if (MetaData.status === 200) {
 
             MetaData.onload = () => {
+
+                // response data for first time
                 let data = MetaData.responseText;
 
+                // get html tag 
                 let elm = document.getElementById("test");
                 elm.innerHTML = data;
 
+                // Remove Junk Data And Keep Main Data
+                // The End Remove elm Tag
                 removemetacritic();
+
+                // Decode Data From Sec elm And Move Data in Array
                 decodeMetacritic();
+
+                // Show Data After Move Data In Array
+                for (let index = 0; index < 10; index++) {
+                    console.log(MetaBox[index].Picture);
+                    // console.log(MetaBox[index].Rate);
+                    console.log(MetaBox[index].Name);
+                    console.log(MetaBox[index].Date);
+                    console.log(MetaBox[index].Description);    
+                }
 
             }
         }
     }
 }
 
+// Url Link
 MetaData.open("Get", "https://www.metacritic.com/search/all/batman/results", true);
 
 // MetaData.setRequestHeader();
@@ -68,7 +88,20 @@ function removemetacritic() {
 
 function decodeMetacritic() {
 
-    document.getElementById('test2').innerHTML = document.querySelectorAll('.search_results ul')[0].innerHTML;
-    document.getElementById("test").remove();
+    var x= document.querySelectorAll('.search_results ul li');
+    var data 
+    
+    for(let i = 0; i <10 ; i++){
+        data = new MetacriticData();
+        data.Picture =x[i].querySelector(".result_thumbnail").innerHTML;
+        // data.Rate = x[i].querySelector(".main_stats .metascore_w").innerHTML; // maybe is null
+        data.Name = x[i].querySelector("h3 a").innerHTML;
+        data.Date = x[i].querySelector(".main_stats p").innerHTML;
+        data.Description = x[i].querySelector(".deck ").innerHTML;
+        MetaBox.push(data);
 
+    }
+     
+    document.getElementById("test").remove();
+    document.getElementById("test2").remove();
 }
