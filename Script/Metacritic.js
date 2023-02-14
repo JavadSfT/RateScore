@@ -34,14 +34,67 @@ MetaData.onreadystatechange = () => {
                 decodeMetacritic();
 
                 // Show Data After Move Data In Array
-                for (let index = 0; index < 10; index++) {
-                    console.log(MetaBox[index].Picture);
-                    // console.log(MetaBox[index].Rate);
-                    console.log(MetaBox[index].Name);
-                    console.log(MetaBox[index].Date);
-                    console.log(MetaBox[index].Description);    
+               
+                // for (let index = 0; index < 10; index++) {
+                //     console.log(MetaBox[index].Picture);
+                //     // console.log(MetaBox[index].Rate);
+                //     console.log(MetaBox[index].Name);
+                //     console.log(MetaBox[index].Date);
+                //     console.log(MetaBox[index].Description);    
+                // }
+
+
+                dataMaker();
+
+                function dataMaker(){
+                    let mainbox = document.getElementById("main_box");
+                    
+                    for(let i = 0 ; i < 10 ; i++){
+
+                        let scroll_side = document.createElement("li");
+                        scroll_side.className = "scroll_side";
+
+                        // img append
+                        let img_Box = document.createElement("div");
+                        img_Box.className = "img_box";
+                        img_Box.innerHTML = MetaBox[i].Picture;
+                        scroll_side.appendChild(img_Box);
+
+                        let text_box = document.createElement("div");
+                        text_box.className = "text_box";
+
+                        // site name append
+                        let site = document.createElement("div");
+                        site.className = "site";
+                        let site_p = document.createElement("p");
+                        site_p.innerHTML = "metacritic";
+                        site.appendChild(site_p);
+                        text_box.appendChild(site);
+
+                        // name append 
+                        let name = document.createElement("div");
+                        name.className = "name";
+                        let name_p = document.createElement("p");
+                        name_p.innerHTML = MetaBox[i].Name;
+                        name.appendChild(name_p);
+                        text_box.appendChild(name);
+
+                        let date = document.createElement("date");
+                        date.className = "date";
+                        let date_p1 = document.createElement("p");
+                        date_p1.innerHTML = MetaBox[i].Date;
+                        date.appendChild(date_p1);
+                        let date_p2 = document.createElement("p");
+                        date_p2.innerHTML = MetaBox[i].Rate;
+                        date.appendChild(date_p2);
+                        text_box.appendChild(date);
+
+                        scroll_side.appendChild(text_box);
+                        mainbox.appendChild(scroll_side);
+                    }
                 }
 
+                
             }
         }
     }
@@ -89,19 +142,19 @@ function removemetacritic() {
 function decodeMetacritic() {
 
     var x= document.querySelectorAll('.search_results ul li');
-    var data 
+    var data;
     
     for(let i = 0; i <10 ; i++){
         data = new MetacriticData();
-        data.Picture =x[i].querySelector(".result_thumbnail").innerHTML;
-        // data.Rate = x[i].querySelector(".main_stats .metascore_w").innerHTML; // maybe is null
+        data.Picture = x[i].querySelector(".result_thumbnail").innerHTML;
+        // data.Rate = x[i].querySelector(".main_stats .metascore_w").innerText; // maybe is null
         data.Name = x[i].querySelector("h3 a").innerHTML;
         data.Date = x[i].querySelector(".main_stats p").innerHTML;
         data.Description = x[i].querySelector(".deck ").innerHTML;
         MetaBox.push(data);
-
+        
     }
      
     document.getElementById("test").remove();
-    document.getElementById("test2").remove();
+    
 }
