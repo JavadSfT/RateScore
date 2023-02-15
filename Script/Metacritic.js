@@ -6,107 +6,102 @@ class MetacriticData {
     Date;
     Description;
 }
+
 // array class for colect data
 let MetaBox = [];
 
-// ajax request to metacritic site
-const MetaData = new XMLHttpRequest();
+function search() {
 
-MetaData.onreadystatechange = () => {
-    if (MetaData.readyState === XMLHttpRequest.DONE) {
+    // clear last data
+    clear();
 
-        if (MetaData.status === 200) {
+    // ajax request to metacritic site
+    const MetaData = new XMLHttpRequest();
 
-            MetaData.onload = () => {
+    MetaData.onreadystatechange = () => {
+        if (MetaData.readyState === XMLHttpRequest.DONE) {
 
-                // response data for first time
-                let data = MetaData.responseText;
+            if (MetaData.status === 200) {
 
-                // get html tag 
-                let elm = document.getElementById("test");
-                elm.innerHTML = data;
+                MetaData.onload = () => {
 
-                // Remove Junk Data And Keep Main Data
-                // The End Remove elm Tag
-                removemetacritic();
+                    // response data for first time
+                    let data = MetaData.responseText;
 
-                // Decode Data From Sec elm And Move Data in Array
-                decodeMetacritic();
+                    // get html tag 
+                    let elm = document.getElementById("test");
+                    elm.innerHTML = data;
 
-                // Show Data After Move Data In Array
-               
-                // for (let index = 0; index < 10; index++) {
-                //     console.log(MetaBox[index].Picture);
-                //     // console.log(MetaBox[index].Rate);
-                //     console.log(MetaBox[index].Name);
-                //     console.log(MetaBox[index].Date);
-                //     console.log(MetaBox[index].Description);    
-                // }
+                    // Remove Junk Data And Keep Main Data
+                    // The End Remove elm Tag
+                    removemetacritic();
 
+                    // Decode Data From Sec elm And Move Data in Array
+                    decodeMetacritic();
 
-                dataMaker();
+                    // get data & set in li tag
+                    dataMaker();
 
-                function dataMaker(){
-                    let mainbox = document.getElementById("main_box");
-                    
-                    for(let i = 0 ; i < 10 ; i++){
-
-                        let scroll_side = document.createElement("li");
-                        scroll_side.className = "scroll_side";
-
-                        // img append
-                        let img_Box = document.createElement("div");
-                        img_Box.className = "img_box";
-                        img_Box.innerHTML = MetaBox[i].Picture;
-                        scroll_side.appendChild(img_Box);
-
-                        let text_box = document.createElement("div");
-                        text_box.className = "text_box";
-
-                        // site name append
-                        let site = document.createElement("div");
-                        site.className = "site";
-                        let site_p = document.createElement("p");
-                        site_p.innerHTML = "metacritic";
-                        site.appendChild(site_p);
-                        text_box.appendChild(site);
-
-                        // name append 
-                        let name = document.createElement("div");
-                        name.className = "name";
-                        let name_p = document.createElement("p");
-                        name_p.innerHTML = MetaBox[i].Name;
-                        name.appendChild(name_p);
-                        text_box.appendChild(name);
-
-                        let date = document.createElement("date");
-                        date.className = "date";
-                        let date_p1 = document.createElement("p");
-                        date_p1.innerHTML = MetaBox[i].Date;
-                        date.appendChild(date_p1);
-                        let date_p2 = document.createElement("p");
-                        date_p2.innerHTML = MetaBox[i].Rate;
-                        date.appendChild(date_p2);
-                        text_box.appendChild(date);
-
-                        scroll_side.appendChild(text_box);
-                        mainbox.appendChild(scroll_side);
-                    }
                 }
-
-                
             }
         }
     }
+
+    // Url Link
+    MetaData.open("Get", `https://www.metacritic.com/search/all/${document.getElementById("search_text").value}/results`, true);
+
+    // MetaData.setRequestHeader();
+    MetaData.send();
+
 }
 
-// Url Link
-MetaData.open("Get", "https://www.metacritic.com/search/all/batman/results", true);
+function dataMaker() {
+    let mainbox = document.getElementById("main_box");
 
-// MetaData.setRequestHeader();
-MetaData.send();
+    for (let i = 0; i < 10; i++) {
 
+        let scroll_side = document.createElement("li");
+        scroll_side.className = "scroll_side";
 
+        // img append
+        let img_Box = document.createElement("div");
+        img_Box.className = "img_box";
+        img_Box.innerHTML = MetaBox[i].Picture;
+        scroll_side.appendChild(img_Box);
+
+        let text_box = document.createElement("div");
+        text_box.className = "text_box";
+
+        // site name append
+        let site = document.createElement("div");
+        site.className = "site";
+        let site_p = document.createElement("p");
+        site_p.innerHTML = "metacritic";
+        site.appendChild(site_p);
+        text_box.appendChild(site);
+
+        // name append 
+        let name = document.createElement("div");
+        name.className = "name";
+        let name_p = document.createElement("p");
+        name_p.innerHTML = MetaBox[i].Name;
+        name.appendChild(name_p);
+        text_box.appendChild(name);
+
+        let date = document.createElement("date");
+        date.className = "date";
+        let date_p1 = document.createElement("p");
+        date_p1.innerHTML = MetaBox[i].Date;
+        date.appendChild(date_p1);
+        let date_p2 = document.createElement("p");
+        date_p2.innerHTML = MetaBox[i].Rate;
+        date.appendChild(date_p2);
+        text_box.appendChild(date);
+
+        scroll_side.appendChild(text_box);
+        mainbox.appendChild(scroll_side);
+    }
+}
 
 function removemetacritic() {
     document.getElementById("top_header").remove();
@@ -135,16 +130,14 @@ function removemetacritic() {
     for (let index = 0; index < 10; index++) {
         link[index].remove();
     }
-
-
 }
 
 function decodeMetacritic() {
 
-    var x= document.querySelectorAll('.search_results ul li');
+    var x = document.querySelectorAll('.search_results ul li');
     var data;
-    
-    for(let i = 0; i <10 ; i++){
+
+    for (let i = 0; i < 10; i++) {
         data = new MetacriticData();
         data.Picture = x[i].querySelector(".result_thumbnail").innerHTML;
         // data.Rate = x[i].querySelector(".main_stats .metascore_w").innerText; // maybe is null
@@ -152,9 +145,23 @@ function decodeMetacritic() {
         data.Date = x[i].querySelector(".main_stats p").innerHTML;
         data.Description = x[i].querySelector(".deck ").innerHTML;
         MetaBox.push(data);
-        
+
     }
-     
+
     document.getElementById("test").remove();
-    
+}
+
+function clear() {
+    let data = document.querySelectorAll(".scroll_side");
+    for (let i = 0; i < data.length; i++) {
+        data[i].remove();
+        MetaBox.pop();
+    }
+
+    let div = document.createElement("div");
+    div.id = "test";
+
+    let body = document.querySelector("body");
+
+    body.appendChild(div);
 }

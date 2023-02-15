@@ -1,7 +1,7 @@
 *{
     @include clear;
-    direction: rtl;
-    text-align: center;
+    // direction: rtl;
+    // text-align: center;
 }
 #test li{
     list-style-type: none; 
@@ -19,8 +19,9 @@ body{
 }
 
 section{
+    display: block;
     width: 100%;
-    height: 12vh;
+    height: 50px;
     background-color: $back_color;
 
     div{
@@ -33,7 +34,7 @@ section{
 article{
     @include center;
     width: 100%;
-    height: 8.5vh;
+    height: 100px;
     background-color: $back_color;
 
     #search_text{
@@ -41,11 +42,12 @@ article{
         height: 40px;
         background-color: $back_color;
         border:1px solid $for_color;
+        border-left: 0.5px solid $for_color;
         color: rgba(255,255,255,0.65);
         font-size:20px ;
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
-
+        padding: 0 0 0 10px;
         &:focus{
             outline: none;
         }
@@ -58,6 +60,7 @@ article{
         height: 40px;
         background-color: $back_color;
         border:1px solid $for_color;
+        border-right: 0.5px solid $for_color;
         color: rgba(255,255,255,0.25);
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
