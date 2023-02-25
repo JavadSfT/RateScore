@@ -10,6 +10,14 @@ class MetacriticData {
 // array class for colect data
 let MetaBox = [];
 
+function valid() {
+    let test = String(document.querySelector("#search_text").value)
+    if (test.trimStart() != "") {
+        search()
+    }
+}
+
+
 function search() {
 
     // clear last data
@@ -32,16 +40,16 @@ function search() {
                     let elm = document.getElementById("test");
                     elm.innerHTML = data;
 
-                    // Remove Junk Data And Keep Main Data
-                    // The End Remove elm Tag
                     removemetacritic();
 
                     // Decode Data From Sec elm And Move Data in Array
                     decodeMetacritic();
 
-                    // get data & set in li tag
-                    dataMaker();
-
+                    if (MetaBox.length == 10) {
+                        // get data & set in li tag
+                        dataMaker();
+                    }
+                    console.log(MetaBox);
                 }
             }
         }
@@ -49,6 +57,7 @@ function search() {
 
     // Url Link
     MetaData.open("Get", `https://www.metacritic.com/search/all/${document.getElementById("search_text").value}/results`, true);
+    // MetaData.open("Get", `https://www.metacritic.com/search/all/avatar/results`, true);
 
     // MetaData.setRequestHeader();
     MetaData.send();
@@ -103,6 +112,41 @@ function dataMaker() {
     }
 }
 
+function decodeMetacritic() {
+
+    var x = document.querySelectorAll('.search_results ul li');
+    var data;
+
+    for (let i = 0; i < 10; i++) {
+        data = new MetacriticData();
+        data.Picture = x[i].querySelector(".result_thumbnail").innerHTML;
+        // data.Rate = x[i].querySelector(".main_stats .metascore_w").innerText; // maybe is null
+        data.Name = x[i].querySelector("h3 a").innerHTML;
+        data.Date = x[i].querySelector(".main_stats p").innerHTML;
+        data.Description = x[i].querySelector(".deck ").innerHTML;
+        MetaBox.push(data);
+        console.log(MetaBox);
+    }
+
+    document.getElementById("test").remove();
+}
+
+function clear() {
+    let data = document.querySelectorAll(".scroll_side");
+    for (let i = 0; i < data.length; i++) {
+        data[i].remove();
+        MetaBox.pop();
+    }
+    MetaBox = [];
+
+    let div = document.createElement("div");
+    div.id = "test";
+
+    let body = document.querySelector("body");
+
+    body.appendChild(div);
+}
+
 function removemetacritic() {
     document.getElementById("top_header").remove();
     document.getElementById("popup_login").remove();
@@ -117,6 +161,8 @@ function removemetacritic() {
     document.getElementsByTagName("title")[1].remove();
     document.getElementsByTagName("noscript")[0].remove();
 
+    // document.getElementById("page").remove()
+
     let meta = document.querySelectorAll("#test meta");
     let link = document.querySelectorAll("#test link");
     var script = document.querySelectorAll("#test script");
@@ -124,44 +170,14 @@ function removemetacritic() {
     for (let index = 0; index < 27; index++) {
         script[index].remove();
     }
-    for (let index = 0; index < 8; index++) {
-        meta[index].remove();
-    }
     for (let index = 0; index < 10; index++) {
         link[index].remove();
     }
-}
-
-function decodeMetacritic() {
-
-    var x = document.querySelectorAll('.search_results ul li');
-    var data;
-
-    for (let i = 0; i < 10; i++) {
-        data = new MetacriticData();
-        data.Picture = x[i].querySelector(".result_thumbnail").innerHTML;
-        // data.Rate = x[i].querySelector(".main_stats .metascore_w").innerText; // maybe is null
-        data.Name = x[i].querySelector("h3 a").innerHTML;
-        data.Date = x[i].querySelector(".main_stats p").innerHTML;
-        data.Description = x[i].querySelector(".deck ").innerHTML;
-        MetaBox.push(data);
-
+    for (let index = 0; index < 8; index++) {
+        meta[index].remove();
     }
-
-    document.getElementById("test").remove();
 }
 
-function clear() {
-    let data = document.querySelectorAll(".scroll_side");
-    for (let i = 0; i < data.length; i++) {
-        data[i].remove();
-        MetaBox.pop();
-    }
-
-    let div = document.createElement("div");
-    div.id = "test";
-
-    let body = document.querySelector("body");
-
-    body.appendChild(div);
-}
+// 164 line
+// if user search wrong name the script show problem and bug
+// we need to fix them
